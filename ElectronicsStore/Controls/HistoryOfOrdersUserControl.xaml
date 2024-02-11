@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="ElectronicsStore.Controls.HistoryOfOrdersUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ElectronicsStore.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"            
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1280" Background="White" Loaded="UserControlLoaded" Unloaded="UserControlUnloaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid x:Name="DgHistoryOrders" Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="ID заказа" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="DgClientColumn"  Header="Клиент" SortMemberPath="User.Lastname" Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="User.Lastname"></Binding>
+                            <Binding Path="User.Firstname"></Binding>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding PriceOfOrder}" Header="Стоимость заказа" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=OrderStartDate,  StringFormat = {}{0:dd.MM.yyyy HH:mm}}" Header="Дата начала заказа" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=OrderEndDate,  StringFormat = {}{0:dd.MM.yyyy HH:mm}}" Header="Дата выполнения заказа" Width="*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

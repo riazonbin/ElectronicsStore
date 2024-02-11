@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="ElectronicsStore.Controls.PersonalCabinetUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ElectronicsStore.Controls.ManagerControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"           
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1280" Background="White" Unloaded="UserControlUnloaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+
+            <Button x:Name="ProfileButton" Margin="0 35 0 0" Width="100" Height="100" FontSize="32" Background="{StaticResource PrimaryHueLightBrush}" Content="Р.Р" Style="{StaticResource MaterialDesignFloatingActionButton}"/>
+
+            <TextBox FontSize="20" Text="{Binding Lastname}" x:Name="TbLastname"  materialDesign:HintAssist.Hint="Фамилия" ToolTip="Фамилия" Margin="0 10 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"></TextBox>
+            <TextBox FontSize="20" Text="{Binding Firstname}" x:Name="TbFirstname" materialDesign:HintAssist.Hint="Имя" ToolTip="Имя" Margin="0 10 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"></TextBox>
+            <TextBox FontSize="20" Text="{Binding Login}" x:Name="TbLogin" materialDesign:HintAssist.Hint="Логин" ToolTip="Логин" Margin="0 10 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"></TextBox>
+
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button  Margin="0 15 0 0" Height="50" Click="SaveChangesButton">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Сохранить изменения" VerticalAlignment="Center" FontSize="24"></TextBlock>
+                        <materialDesign:PackIcon Margin="10 0 0 0" Kind="FloppyDisk" Width="40" Height="40"></materialDesign:PackIcon>
+                    </StackPanel>
+                </Button>
+
+                <Button  Margin="10 15 0 0" Height="50" Click="DeleteUserButtonClick" Background="Red">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Удалить аккаунт" VerticalAlignment="Center" FontSize="24"></TextBlock>
+                        <materialDesign:PackIcon Margin="10 0 0 0" Kind="DeleteCircle" Width="40" Height="40"></materialDesign:PackIcon>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            
+        </StackPanel>
+        
+    </Grid>
+</UserControl>
