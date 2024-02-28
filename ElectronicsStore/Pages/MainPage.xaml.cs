@@ -41,13 +41,13 @@ namespace ElectronicsStore.Pages
             UserControl usc = null;
             GridMain.Children.Clear();
 
-            if (App.currentUser.Role.Id == 0)
+            if (App.currentUser.Role.Id == 1)
             {
-                usc = new DishesManagerControl(GridMain);
+                usc = new ProductsCatalogManagerControl(GridMain);
             }
             else
             {
-                usc = new DishesClientControl();
+                usc = new ProductsCatalogClientControl();
             }
 
             GridMain.Children.Add(usc);
@@ -76,11 +76,11 @@ namespace ElectronicsStore.Pages
                 case "ItemDishes":
                     if (App.currentUser.Role.Id == 1)
                     {
-                        usc = new DishesManagerControl(GridMain);
+                        usc = new ProductsCatalogManagerControl(GridMain);
                     }
                     else
                     {
-                        usc = new DishesClientControl();
+                        usc = new ProductsCatalogClientControl();
                     }
                     GridMain.Children.Add(usc);
                     break;

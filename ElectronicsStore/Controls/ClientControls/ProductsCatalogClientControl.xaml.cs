@@ -1,4 +1,4 @@
-﻿using ElectronicsStore.ADOModel;
+﻿using ElectronicsStore.ADO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +19,13 @@ namespace ElectronicsStore.Controls.ClientControls
     /// <summary>
     /// Interaction logic for DishesClientControls.xaml
     /// </summary>
-    public partial class DishesClientControl : UserControl
+    public partial class ProductsCatalogClientControl : UserControl
     {
-        private Predicate<ADOModel.MenuItem> _discountFilter = x => true;
-        private Func<ADOModel.MenuItem, object> _sortingQuery = x => x.Id;
-        List<ADOModel.MenuItem> MenuItemsList { get; set; }
+        private Predicate<Product> _discountFilter = x => true;
+        private Func<Product, object> _sortingQuery = x => x.Id;
+        List<Product> MenuItemsList { get; set; }
 
-        public DishesClientControl()
+        public ProductsCatalogClientControl()
         {
             InitializeComponent();
             GetDataForDishes();
@@ -33,22 +33,22 @@ namespace ElectronicsStore.Controls.ClientControls
 
         void GetDataForDishes()
         {
-            LvMenuItems.ItemsSource = App.Connection.MenuItem.ToList();
+            LvMenuItems.ItemsSource = App.Connection.Product.ToList();
         }
 
         private void AddToCartButton(object sender, RoutedEventArgs e)
         {
-            var menuItemId = (int)((Button)sender).Tag;
+            var productId = (int)((Button)sender).Tag;
 
-            Cart newUserCart = new Cart()
+            Basket newUserCart = new Basket()
             {
-                MenuItem_Id = menuItemId,
+                Product_Id = productId,
                 User_Id = App.currentUser.Id,
             };
-            App.Connection.Cart.Add(newUserCart);
+            App.Connection.Basket.Add(newUserCart);
             App.Connection.SaveChanges();
 
-            SnackbarOne.MessageQueue?.Enqueue("Блюдо добавлено в корзину!", null, null, null, false, true, TimeSpan.FromSeconds(3));
+            SnackbarOne.MessageQueue?.Enqueue("Товар добавлено в корзину!", null, null, null, false, true, TimeSpan.FromSeconds(3));
         }
 
 
@@ -95,7 +95,7 @@ namespace ElectronicsStore.Controls.ClientControls
                 return;
             }
 
-            MenuItemsList = App.Connection.MenuItem.ToList()
+            MenuItemsList = App.Connection.Product.ToList()
                 .Where(x => _discountFilter(x) && x.IsMarkedForDeletion != true)
                 .OrderBy(x => _sortingQuery(x))
                 .ToList();
@@ -125,10 +125,6 @@ namespace ElectronicsStore.Controls.ClientControls
                     break;
 
                 case 1:
-                    _sortingQuery = x => x.Weight;
-                    break;
-
-                case 2:
                     _sortingQuery = x => x.Price;
                     break;
 

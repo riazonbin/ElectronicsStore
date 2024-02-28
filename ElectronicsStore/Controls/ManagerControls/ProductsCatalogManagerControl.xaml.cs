@@ -1,5 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
-using ElectronicsStore.ADOModel;
+using ElectronicsStore.ADO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,20 +14,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Windows.Media.Protection.PlayReady;
 
 namespace ElectronicsStore.Controls.ManagerControls
 {
     /// <summary>
     /// Interaction logic for UserControlHome.xaml
     /// </summary>
-    public partial class DishesManagerControl : UserControl
+    public partial class ProductsCatalogManagerControl : UserControl
     {
         Grid _gridMain;
-        private Predicate<ADOModel.MenuItem> _discountFilter = x => true;
-        private Func<ADOModel.MenuItem, object> _sortingQuery = x => x.Id;
-        List<ADOModel.MenuItem> MenuItemsList { get; set; }
-        public DishesManagerControl(Grid GridMain)
+        private Predicate<Product> _discountFilter = x => true;
+        private Func<Product, object> _sortingQuery = x => x.Id;
+        List<Product> MenuItemsList { get; set; }
+        public ProductsCatalogManagerControl(Grid GridMain)
         {
             InitializeComponent();
             _gridMain = GridMain;
@@ -39,9 +38,9 @@ namespace ElectronicsStore.Controls.ManagerControls
 
             var menuItemId = (int)((Button)sender).Tag;
 
-            var menuItem = App.Connection.MenuItem.FirstOrDefault(x => x.Id == menuItemId);
+            var menuItem = App.Connection.Product.FirstOrDefault(x => x.Id == menuItemId);
 
-            UserControl usc = new CreatingDishManagerControl(menuItem, _gridMain);
+            UserControl usc = new CreatingProductManagerControl(menuItem, _gridMain);
             _gridMain.Children.Add(element: usc);
         }
 
@@ -49,7 +48,7 @@ namespace ElectronicsStore.Controls.ManagerControls
         {
             _gridMain.Children.Clear();
 
-            UserControl usc = new CreatingDishManagerControl(null, _gridMain);
+            UserControl usc = new CreatingProductManagerControl(null, _gridMain);
             _gridMain.Children.Add(element: usc);
         }
 
@@ -96,7 +95,7 @@ namespace ElectronicsStore.Controls.ManagerControls
                 return;
             }
 
-            MenuItemsList = App.Connection.MenuItem.ToList()
+            MenuItemsList = App.Connection.Product.ToList()
                 .Where(x => _discountFilter(x) && x.IsMarkedForDeletion != true)
                 .OrderBy(x => _sortingQuery(x))
                 .ToList();
@@ -126,10 +125,6 @@ namespace ElectronicsStore.Controls.ManagerControls
                     break;
 
                 case 1:
-                    _sortingQuery = x => x.Weight;
-                    break;
-
-                case 2:
                     _sortingQuery = x => x.Price;
                     break;
 

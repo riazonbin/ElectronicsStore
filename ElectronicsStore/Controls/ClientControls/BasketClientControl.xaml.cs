@@ -1,4 +1,4 @@
-﻿using ElectronicsStore.ADOModel;
+﻿using ElectronicsStore.ADO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +19,9 @@ namespace ElectronicsStore.Controls.ClientControls
     /// <summary>
     /// Interaction logic for CartUserControl.xaml
     /// </summary>
-    public partial class CartClientControl : UserControl
+    public partial class BasketClientControl : UserControl
     {
-        public CartClientControl()
+        public BasketClientControl()
         {
             InitializeComponent();
 
@@ -32,12 +32,12 @@ namespace ElectronicsStore.Controls.ClientControls
         {
             var menuItemId = (int)((Button)sender).Tag;
 
-            Cart newUserCart = new Cart()
+            Basket newUserCart = new Basket()
             {
-                MenuItem_Id= menuItemId,
+                Product_Id = menuItemId,
                 User_Id = App.currentUser.Id,
             };
-            App.Connection.Cart.Add(newUserCart);
+            App.Connection.Basket.Add(newUserCart);
             App.Connection.SaveChanges();
 
             dgCart.Items.Refresh();
@@ -45,9 +45,9 @@ namespace ElectronicsStore.Controls.ClientControls
 
         private void MinusButtonClick(object sender, RoutedEventArgs e)
         {
-            var menuItemId = (int)((Button)sender).Tag;
+            var productId = (int)((Button)sender).Tag;
 
-            App.Connection.Cart.Remove(App.Connection.Cart.FirstOrDefault(x => x.MenuItem_Id == menuItemId));
+            App.Connection.Basket.Remove(App.Connection.Basket.FirstOrDefault(x => x.Product_Id == productId));
             App.Connection.SaveChanges();
 
             RefreshData();
@@ -58,7 +58,7 @@ namespace ElectronicsStore.Controls.ClientControls
             var menuItemId = (int)((Button)sender).Tag;
 
 
-            App.Connection.Cart.RemoveRange(App.Connection.Cart.Where(x => x.MenuItem_Id == menuItemId).ToList());
+            App.Connection.Basket.RemoveRange(App.Connection.Basket.Where(x => x.Product_Id == menuItemId).ToList());
             App.Connection.SaveChanges();
 
             RefreshData();
@@ -66,7 +66,7 @@ namespace ElectronicsStore.Controls.ClientControls
 
         private void RefreshData()
         {
-            dgCart.ItemsSource = App.Connection.Cart.Where(x => x.User_Id == App.currentUser.Id).GroupBy(x => x.MenuItem_Id).ToList();
+            dgCart.ItemsSource = App.Connection.Basket.Where(x => x.User_Id == App.currentUser.Id).GroupBy(x => x.Product_Id).ToList();
             dgCart.Items.Refresh();
         }
 
@@ -89,18 +89,19 @@ namespace ElectronicsStore.Controls.ClientControls
             };
 
 
-            foreach(ADOModel.Cart item in App.Connection.Cart.Where(x => x.User_Id == App.currentUser.Id).ToList())
+            foreach(Basket item in App.Connection.Basket.Where(x => x.User_Id == App.currentUser.Id).ToList())
             {
                 OrderContent content = new OrderContent()
                 {
-                    MenuItem_Id = (int)item.MenuItem_Id,
+                    Product_Id = (int)item.Product_Id,
+                    
                 };
                 newOrder.OrderContent.Add(content);
             }
             App.Connection.Order.Add(newOrder);
 
             // clear cart
-            App.Connection.Cart.RemoveRange(App.Connection.Cart.Where(x => x.User_Id == App.currentUser.Id));
+            App.Connection.Basket.RemoveRange(App.Connection.Basket.Where(x => x.User_Id == App.currentUser.Id));
             App.Connection.SaveChanges();
 
             RefreshData();

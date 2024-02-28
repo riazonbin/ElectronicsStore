@@ -1,4 +1,4 @@
-﻿using ElectronicsStore.ADOModel;
+﻿using ElectronicsStore.ADO;
 using ElectronicsStore.Pages;
 using System;
 using System.Collections.Generic;

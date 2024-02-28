@@ -1,5 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
-using ElectronicsStore.ADOModel;
+﻿using ElectronicsStore.ADO;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +25,12 @@ namespace ElectronicsStore.Pages
         public RegistrationPage()
         {
             InitializeComponent();
-            cbRole.ItemsSource = App.Connection.Role.ToList();
         }
 
         private void RegistrateButton(object sender, RoutedEventArgs e)
         {
 
-            if (tbFirstname.Text == "" || tbLastname.Text == "" || tbLogin.Text == "" || tbPassword.Password == "" || cbRole.SelectedItem == null)
+            if (tbFirstname.Text == "" || tbLastname.Text == "" || tbLogin.Text == "" || tbPassword.Password == "")
             {
                 ModernWpf.MessageBox.Show("Заполните все поля!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -43,7 +42,7 @@ namespace ElectronicsStore.Pages
                 Firstname = tbFirstname.Text,
                 Lastname = tbLastname.Text,
                 Login = tbLogin.Text,
-                Role = cbRole.SelectedItem as Role
+                Role_Id = 2 
             };
 
             if (App.Connection.User.FirstOrDefault(x => x.Login == newUser.Login) != null)

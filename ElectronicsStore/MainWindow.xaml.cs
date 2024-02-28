@@ -54,7 +54,7 @@ namespace ElectronicsStore
 
                 if(order.OrderStatus_Id== 5)
                 {
-                    order.OrderEndDate = DateTime.Now;
+                    order.OrderGiveDate = DateTime.Now;
                 }
 
                 random = new Random();
