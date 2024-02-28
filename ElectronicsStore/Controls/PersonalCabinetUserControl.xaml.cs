@@ -31,9 +31,9 @@ namespace ElectronicsStore.Controls
             _navService = navService;
             _mainPageProfileButton = MainPageProfileButton;
             InitializeComponent();
-            DataContext = App.currentUser;
+            DataContext = App.CurrentUser;
 
-            ProfileButton.Content = $"{App.currentUser.Lastname[0]}.{App.currentUser.Firstname[0]}";
+            ProfileButton.Content = $"{App.CurrentUser.Lastname[0]}.{App.CurrentUser.Firstname[0]}";
         }
 
         private void SaveChangesButton(object sender, RoutedEventArgs e)
@@ -44,11 +44,11 @@ namespace ElectronicsStore.Controls
                 return;
             }
 
-            App.Connection.User.AddOrUpdate(App.currentUser);
+            App.Connection.User.AddOrUpdate(App.CurrentUser);
             App.Connection.SaveChanges();
 
-            ProfileButton.Content = $"{App.currentUser.Lastname[0]}.{App.currentUser.Firstname[0]}";
-            _mainPageProfileButton.Content = $"{App.currentUser.Lastname[0]}.{App.currentUser.Firstname[0]}";
+            ProfileButton.Content = $"{App.CurrentUser.Lastname[0]}.{App.CurrentUser.Firstname[0]}";
+            _mainPageProfileButton.Content = $"{App.CurrentUser.Lastname[0]}.{App.CurrentUser.Firstname[0]}";
 
             ModernWpf.MessageBox.Show("Пользователь успешно сохранен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -56,9 +56,9 @@ namespace ElectronicsStore.Controls
 
         private void UserControlUnloaded(object sender, RoutedEventArgs e)
         {
-            if(App.currentUser != null)
+            if(App.CurrentUser != null)
             {
-                App.Connection.Entry(App.currentUser).Reload();
+                App.Connection.Entry(App.CurrentUser).Reload();
             }
         }
 
@@ -66,9 +66,9 @@ namespace ElectronicsStore.Controls
         {
             ModernWpf.MessageBox.Show("Пользователь успешно удален!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            App.Connection.User.Remove(App.currentUser);
+            App.Connection.User.Remove(App.CurrentUser);
             App.Connection.SaveChanges();
-            App.currentUser = null;
+            App.CurrentUser = null;
             _navService.Navigate(new AuthorizationPage());
         }
     }

@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -64,10 +65,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\ClientControls\BasketClientControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\ClientControls\ProductsCatalogClientControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -117,6 +114,8 @@
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ADO\Extension classes\Order.cs" />
+    <Compile Include="ADO\Extension classes\OrderContent.cs" />
+    <Compile Include="ADO\Extension classes\Product.cs" />
     <Compile Include="ADO\Order.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
@@ -147,9 +146,6 @@
     </Compile>
     <Compile Include="Controls\ClientControls\BasketClientControl.xaml.cs">
       <DependentUpon>BasketClientControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ClientControls\ProductsCatalogClientControl.xaml.cs">
-      <DependentUpon>ProductsCatalogClientControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\CurrentOrdersUserControl.xaml.cs">
       <DependentUpon>CurrentOrdersUserControl.xaml</DependentUpon>
@@ -258,6 +254,9 @@
     </PackageReference>
     <PackageReference Include="ModernWpf.MessageBox">
       <Version>0.5.2</Version>
+    </PackageReference>
+    <PackageReference Include="QRCoder">
+      <Version>1.4.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -40,7 +40,7 @@ namespace ElectronicsStore.Pages
                 return;
             }
 
-            App.currentUser = user;
+            App.CurrentUser = user;
             NavigationService.Navigate(new MainPage());
         }
     }

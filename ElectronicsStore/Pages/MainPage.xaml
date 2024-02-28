@@ -83,13 +83,13 @@
                                 <TextBlock Text="Личный кабинет" VerticalAlignment="Center"  Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="ItemDishes" Height="60">
+                        <ListViewItem x:Name="ItemProducts" Height="60">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Food" Height="25" Width="25" Margin="10"/>
                                 <TextBlock Text="Блюда" VerticalAlignment="Center" Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="ItemCart" Height="60">
+                        <ListViewItem x:Name="ItemBasket" Height="60">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Cart" Height="25" Width="25" Margin="10"/>
                                 <TextBlock Text="Корзина" VerticalAlignment="Center"  Margin="20 10"/>

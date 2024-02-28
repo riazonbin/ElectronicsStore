@@ -30,10 +30,10 @@ namespace ElectronicsStore.Pages
             InitializeComponent();
             SelectDefaultControl();
 
-            ProfileButton.Content = $"{App.currentUser.Lastname[0]}.{App.currentUser.Firstname[0]}";
+            ProfileButton.Content = $"{App.CurrentUser.Lastname[0]}.{App.CurrentUser.Firstname[0]}";
 
-            IsManagerRole = App.currentUser.Role_Id == 2 ? Visibility.Visible : Visibility.Collapsed;
-            (ListViewMenu.FindName("ItemCart") as ListViewItem).Visibility = IsManagerRole;
+            IsManagerRole = App.CurrentUser.Role_Id == 2 ? Visibility.Visible : Visibility.Collapsed;
+            (ListViewMenu.FindName("ItemBasket") as ListViewItem).Visibility = IsManagerRole;
         }
 
         void SelectDefaultControl()
@@ -41,7 +41,7 @@ namespace ElectronicsStore.Pages
             UserControl usc = null;
             GridMain.Children.Clear();
 
-            if (App.currentUser.Role.Id == 1)
+            if (App.CurrentUser.Role.Id == 1)
             {
                 usc = new ProductsCatalogManagerControl(GridMain);
             }
@@ -73,8 +73,8 @@ namespace ElectronicsStore.Pages
 
             switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
             {
-                case "ItemDishes":
-                    if (App.currentUser.Role.Id == 1)
+                case "ItemProducts":
+                    if (App.CurrentUser.Role.Id == 1)
                     {
                         usc = new ProductsCatalogManagerControl(GridMain);
                     }
@@ -90,8 +90,8 @@ namespace ElectronicsStore.Pages
                     GridMain.Children.Add(element: usc);
                     break;
 
-                case "ItemCart":
-                    usc = new CartClientControl();
+                case "ItemBasket":
+                    usc = new BasketClientControl();
                     GridMain.Children.Add(element: usc);
                     break;
 
@@ -111,8 +111,24 @@ namespace ElectronicsStore.Pages
 
         private void LogoutButtonClick(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new AuthorizationPage());
-            App.currentUser = null;
+            string sMessageBoxText = "Вы уверены, что хотите выйти?";
+            string sCaption = "Подтверждение";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Question;
+
+            MessageBoxResult rsltMessageBox = (MessageBoxResult)ModernWpf.MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+
+            switch (rsltMessageBox)
+            {
+                case MessageBoxResult.Yes:
+                    NavigationService.Navigate(new AuthorizationPage());
+                    break;
+
+                case MessageBoxResult.No:
+                    /* ... */
+                    break;
+            }
         }
     }
 }

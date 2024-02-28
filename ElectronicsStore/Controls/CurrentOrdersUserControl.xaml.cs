@@ -37,14 +37,14 @@ namespace ElectronicsStore.Controls
         {
             try
             {
-                if (App.currentUser.Id == 1)
+                if (App.CurrentUser.Id == 1)
                 {
                     DgCurrentOrders.ItemsSource = App.Connection.Order.Where(x => x.OrderStatus_Id != 5).ToList();
                 }
                 else
                 {
                     DgCurrentOrders.ItemsSource = App.Connection.Order.Where(x => x.OrderStatus_Id != 5
-                    && x.User_Id == App.currentUser.Id).ToList();
+                    && x.User_Id == App.CurrentUser.Id).ToList();
                 }
             }
             catch { }
@@ -52,7 +52,7 @@ namespace ElectronicsStore.Controls
 
         private void UserControlLoaded(object sender, RoutedEventArgs e)
         {
-            DgClientColumn.Visibility = App.currentUser.Role_Id == 1 ? Visibility.Visible : Visibility.Collapsed;
+            DgClientColumn.Visibility = App.CurrentUser.Role_Id == 1 ? Visibility.Visible : Visibility.Collapsed;
             RefreshData();
         }
 

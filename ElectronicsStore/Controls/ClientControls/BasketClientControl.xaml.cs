@@ -35,7 +35,7 @@ namespace ElectronicsStore.Controls.ClientControls
             Basket newUserCart = new Basket()
             {
                 Product_Id = menuItemId,
-                User_Id = App.currentUser.Id,
+                User_Id = App.CurrentUser.Id,
             };
             App.Connection.Basket.Add(newUserCart);
             App.Connection.SaveChanges();
@@ -66,7 +66,7 @@ namespace ElectronicsStore.Controls.ClientControls
 
         private void RefreshData()
         {
-            dgCart.ItemsSource = App.Connection.Basket.Where(x => x.User_Id == App.currentUser.Id).GroupBy(x => x.Product_Id).ToList();
+            dgCart.ItemsSource = App.Connection.Basket.Where(x => x.User_Id == App.CurrentUser.Id).GroupBy(x => x.Product_Id).ToList();
             dgCart.Items.Refresh();
         }
 
@@ -85,11 +85,11 @@ namespace ElectronicsStore.Controls.ClientControls
             {
                 OrderStartDate = DateTime.Now,
                 OrderStatus_Id = 1,
-                User_Id = App.currentUser.Id,
+                User_Id = App.CurrentUser.Id,
             };
 
 
-            foreach(Basket item in App.Connection.Basket.Where(x => x.User_Id == App.currentUser.Id).ToList())
+            foreach(Basket item in App.Connection.Basket.Where(x => x.User_Id == App.CurrentUser.Id).ToList())
             {
                 OrderContent content = new OrderContent()
                 {
@@ -101,7 +101,7 @@ namespace ElectronicsStore.Controls.ClientControls
             App.Connection.Order.Add(newOrder);
 
             // clear cart
-            App.Connection.Basket.RemoveRange(App.Connection.Basket.Where(x => x.User_Id == App.currentUser.Id));
+            App.Connection.Basket.RemoveRange(App.Connection.Basket.Where(x => x.User_Id == App.CurrentUser.Id));
             App.Connection.SaveChanges();
 
             RefreshData();

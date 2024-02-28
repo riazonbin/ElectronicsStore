@@ -33,20 +33,20 @@ namespace ElectronicsStore.Controls
 
         private void RefreshData()
         {
-            if (App.currentUser.Id == 1)
+            if (App.CurrentUser.Id == 1)
             {
                 DgHistoryOrders.ItemsSource = App.Connection.Order.Where(x => x.OrderStatus_Id == 5).ToList();
             }
             else
             {
                 DgHistoryOrders.ItemsSource = App.Connection.Order.Where(x => x.OrderStatus_Id == 5
-                && x.User_Id == App.currentUser.Id).ToList();
+                && x.User_Id == App.CurrentUser.Id).ToList();
             }
         }
 
         private void UserControlLoaded(object sender, RoutedEventArgs e)
         {
-            DgClientColumn.Visibility = App.currentUser.Role_Id == 1 ? Visibility.Visible : Visibility.Collapsed;
+            DgClientColumn.Visibility = App.CurrentUser.Role_Id == 1 ? Visibility.Visible : Visibility.Collapsed;
             RefreshData();
         }
 

@@ -66,13 +66,21 @@
                                     </Grid.Effect>-->
                                     <StackPanel>
                                         <TextBlock Margin="10" FontSize="16" Text="{Binding Name}" HorizontalAlignment="Center"/>
-                                        <Image  Width="180" Height="140" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Image}"/>
-                                        <TextBlock FontSize="12" Margin="10 10 0 0" TextWrapping="Wrap" Text="{Binding Weight, StringFormat=Вес: {0} грамм}" HorizontalAlignment="Left">
-                                        </TextBlock>
-                                        <TextBlock Text="{Binding Price, StringFormat={}Стоимость: {0} ₽}" VerticalAlignment="Center" Margin="10" FontSize="16" />
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Tag="{Binding Id}" FontSize="14" Content="Изменить" Margin="10 0 0 0" Click="EditDishButtonClick"/>
-                                        </StackPanel>
+                                    <Image  Width="180" Height="140" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Image}"/>
+                                    <TextBlock Text="{Binding Price, StringFormat={}{0} ₽}" VerticalAlignment="Center" Margin="10" FontSize="18" />
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0">
+                                        <Button Visibility="{Binding IsAdminMode}" Width="30" Padding="2,0,2,0"
+                                materialDesign:RippleAssist.IsCentered="True"
+                                Style="{StaticResource MaterialDesignToolButton}" Tag="{Binding Id}" ToolTip="Изменить" Click="EditProduct">
+                                            <materialDesign:PackIcon Kind="Edit" Foreground="Indigo" />
+                                        </Button>
+
+                                        <Button Visibility="{Binding IsUserMode}" Tag="{Binding Id}" Width="30" Padding="2,0,2,0" ToolTip="В корзину" Click="AddToCartBtnClick"
+                                    materialDesign:RippleAssist.IsCentered="True"
+                                    Style="{StaticResource MaterialDesignToolButton}">
+                                            <materialDesign:PackIcon Kind="Cart" Foreground="Green" />
+                                        </Button>
+                                    </StackPanel>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>

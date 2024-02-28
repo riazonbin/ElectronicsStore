@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Entity.Migrations;
 
 namespace ElectronicsStore.Controls.ManagerControls
 {
@@ -32,24 +33,54 @@ namespace ElectronicsStore.Controls.ManagerControls
             _gridMain = GridMain;
         }
 
-        private void EditDishButtonClick(object sender, RoutedEventArgs e)
-        {
-            _gridMain.Children.Clear();
-
-            var menuItemId = (int)((Button)sender).Tag;
-
-            var menuItem = App.Connection.Product.FirstOrDefault(x => x.Id == menuItemId);
-
-            UserControl usc = new CreatingProductManagerControl(menuItem, _gridMain);
-            _gridMain.Children.Add(element: usc);
-        }
-
         private void CreateDishButtonClick(object sender, RoutedEventArgs e)
         {
             _gridMain.Children.Clear();
 
             UserControl usc = new CreatingProductManagerControl(null, _gridMain);
             _gridMain.Children.Add(element: usc);
+        }
+
+        private void EditProduct(object sender, RoutedEventArgs e)
+        {
+            _gridMain.Children.Clear();
+
+            var productId = (int)((Button)sender).Tag;
+
+            var product = App.Connection.Product.FirstOrDefault(x => x.Id == productId);
+
+
+            UserControl usc = new CreatingProductManagerControl(product, _gridMain);
+            _gridMain.Children.Add(element: usc);
+        }
+
+        private void AddToCartBtnClick(object sender, RoutedEventArgs e)
+        {
+            var productId = (int)((Button)sender).Tag;
+
+            var product = App.Connection.Product.FirstOrDefault(x => x.Id == productId);
+
+            var basket = App.Connection.Basket.FirstOrDefault(x => x.User_Id == App.CurrentUser.Id && x.Product_Id == productId);
+
+            if (basket is null)
+            {
+                basket = new Basket
+                {
+                    Product = product,
+                    User = App.CurrentUser,
+                    Count = 1
+                };
+            }
+            else
+            {
+                basket.Count++;
+            }
+
+            App.Connection.Basket.AddOrUpdate(basket);
+            App.Connection.SaveChanges();
+
+            SnackbarOne.MessageQueue?.Enqueue($"Товар \"{product.Name}\" добавлен в корзину!",
+                null, null, null, false, true, TimeSpan.FromSeconds(2));
         }
 
         private void CbDiscount_SelectionChanged(object sender, SelectionChangedEventArgs e)

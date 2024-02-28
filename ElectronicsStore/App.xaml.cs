@@ -16,7 +16,7 @@ namespace ElectronicsStore
     public partial class App : Application
     {
         public static ElectronicsStoreEntities Connection = new ElectronicsStoreEntities();
-        public static User currentUser;
+        public static User CurrentUser;
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
     }
 }
