@@ -15,19 +15,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Entity.Migrations;
+using ElectronicsStore.Controls.ManagerControls;
 
-namespace ElectronicsStore.Controls.ManagerControls
+namespace ElectronicsStore.Controls
 {
     /// <summary>
     /// Interaction logic for UserControlHome.xaml
     /// </summary>
-    public partial class ProductsCatalogManagerControl : UserControl
+    public partial class ProductsCatalogUserControl : UserControl
     {
         Grid _gridMain;
-        private Predicate<Product> _discountFilter = x => true;
+        private Predicate<Product> _filterQuery = x => true;
         private Func<Product, object> _sortingQuery = x => x.Id;
         List<Product> MenuItemsList { get; set; }
-        public ProductsCatalogManagerControl(Grid GridMain)
+        public ProductsCatalogUserControl(Grid GridMain)
         {
             InitializeComponent();
             _gridMain = GridMain;
@@ -83,42 +84,6 @@ namespace ElectronicsStore.Controls.ManagerControls
                 null, null, null, false, true, TimeSpan.FromSeconds(2));
         }
 
-        private void CbDiscount_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            switch (CbDiscount.SelectedIndex)
-            {
-                case 0:
-                    _discountFilter = x => true;
-                    break;
-
-                case 1:
-                    _discountFilter = x => x.Discount.Value == 0;
-                    break;
-
-                case 2:
-                    _discountFilter = x => x.Discount.Value == 5;
-                    break;
-
-                case 3:
-                    _discountFilter = x => x.Discount.Value == 10;
-                    break;
-
-                case 4:
-                    _discountFilter = x => x.Discount.Value == 15;
-                    break;
-
-                case 5:
-                    _discountFilter = x => x.Discount.Value == 20;
-                    break;
-
-                case 6:
-                    _discountFilter = x => x.Discount.Value == 35;
-                    break;
-            }
-
-            UpdateMenuItems();
-        }
-
         private void UpdateMenuItems()
         {
             if(!IsInitialized)
@@ -127,7 +92,7 @@ namespace ElectronicsStore.Controls.ManagerControls
             }
 
             MenuItemsList = App.Connection.Product.ToList()
-                .Where(x => _discountFilter(x) && x.IsMarkedForDeletion != true)
+                .Where(x => _filterQuery(x) && x.IsMarkedForDeletion != true)
                 .OrderBy(x => _sortingQuery(x))
                 .ToList();
 
@@ -152,14 +117,18 @@ namespace ElectronicsStore.Controls.ManagerControls
             switch (CbSort.SelectedIndex)
             {
                 case 0:
-                    _sortingQuery = x => x.Name;
+                    _sortingQuery = x => x.Id;
                     break;
 
                 case 1:
+                    _sortingQuery = x => x.Name;
+                    break;
+
+                case 2:
                     _sortingQuery = x => x.Price;
                     break;
 
-                default:
+                case 3:
                     _sortingQuery = x => -x.Price;
                     break;
             }
@@ -169,7 +138,33 @@ namespace ElectronicsStore.Controls.ManagerControls
 
         private void UserControlLoaded(object sender, RoutedEventArgs e)
         {
+            List<ProductType> productTypes = new List<ProductType>();
+            productTypes.Add(new ProductType { Name = "Все" });
+
+            productTypes.AddRange(App.Connection.ProductType.ToList());
+            CbCategory.ItemsSource = productTypes;
+            CbCategory.SelectedIndex = 0;
+
             UpdateMenuItems();
+        }
+
+        private void CbCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(CbCategory.SelectedIndex == 0) 
+            {
+                _filterQuery = x => true;
+                UpdateMenuItems();
+                return;
+            }
+
+            ProductType selectedProductType = CbCategory.SelectedItem as ProductType;
+
+            if(selectedProductType != null)
+            {
+                _filterQuery = x => x.ProductType_Id == selectedProductType.Id;
+                UpdateMenuItems();
+            }
+
         }
     }
 }

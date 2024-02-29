@@ -57,6 +57,7 @@ namespace ElectronicsStore.Pages
             ModernWpf.MessageBox.Show("Пользователь зарегистрирован!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             NavigationService.Navigate(new AuthorizationPage());
 
+            App.Connection.Entry(newUser).Reload();
         }
     }
 }

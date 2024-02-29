@@ -64,12 +64,17 @@ namespace ElectronicsStore.Controls.ManagerControls
         {
             this.DataContext = _product;
             BtnDeleteMenuItem.Visibility = isEdit ? Visibility.Visible : Visibility.Collapsed;
-            cbDiscounts.ItemsSource = App.Connection.Discount.ToList().OrderBy(x => x.Value);
             cbMenuItemType.ItemsSource = App.Connection.ProductType.ToList().OrderBy(x => x.Name);
         }
 
         private void SaveDishButton(object sender, RoutedEventArgs e)
         {
+            if(tbName.Text == "" || cbMenuItemType.SelectedIndex == -1)
+            {
+                ModernWpf.MessageBox.Show("Заполните все поля!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             if (!isEdit)
             {
                 var res = App.Connection.Product.FirstOrDefault(x => x.Name == _product.Name);
@@ -88,14 +93,14 @@ namespace ElectronicsStore.Controls.ManagerControls
 
 
             _gridMain.Children.Clear();
-            UserControl usc = new ProductsCatalogManagerControl(_gridMain);
+            UserControl usc = new ProductsCatalogUserControl(_gridMain);
             _gridMain.Children.Add(usc);
         }
 
         private void GetBackButton(object sender, RoutedEventArgs e)
         {
             _gridMain.Children.Clear();
-            UserControl usc = new ProductsCatalogManagerControl(_gridMain);
+            UserControl usc = new ProductsCatalogUserControl(_gridMain);
             _gridMain.Children.Add(usc);
         }
 
@@ -114,10 +119,8 @@ namespace ElectronicsStore.Controls.ManagerControls
             App.Connection.SaveChanges();
             ModernWpf.MessageBox.Show("Товар успешно удален!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
 
-
-
             _gridMain.Children.Clear();
-            UserControl usc = new ProductsCatalogManagerControl(_gridMain);
+            UserControl usc = new ProductsCatalogUserControl(_gridMain);
             _gridMain.Children.Add(usc);
         }
     }

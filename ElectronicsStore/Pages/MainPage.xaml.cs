@@ -30,8 +30,6 @@ namespace ElectronicsStore.Pages
             InitializeComponent();
             SelectDefaultControl();
 
-            ProfileButton.Content = $"{App.CurrentUser.Lastname[0]}.{App.CurrentUser.Firstname[0]}";
-
             IsManagerRole = App.CurrentUser.Role_Id == 2 ? Visibility.Visible : Visibility.Collapsed;
             (ListViewMenu.FindName("ItemBasket") as ListViewItem).Visibility = IsManagerRole;
         }
@@ -43,11 +41,11 @@ namespace ElectronicsStore.Pages
 
             if (App.CurrentUser.Role.Id == 1)
             {
-                usc = new ProductsCatalogManagerControl(GridMain);
+                usc = new ProductsCatalogUserControl(GridMain);
             }
             else
             {
-                usc = new ProductsCatalogClientControl();
+                usc = new ProductsCatalogUserControl(GridMain);
             }
 
             GridMain.Children.Add(usc);
@@ -76,11 +74,11 @@ namespace ElectronicsStore.Pages
                 case "ItemProducts":
                     if (App.CurrentUser.Role.Id == 1)
                     {
-                        usc = new ProductsCatalogManagerControl(GridMain);
+                        usc = new ProductsCatalogUserControl(GridMain);
                     }
                     else
                     {
-                        usc = new ProductsCatalogClientControl();
+                        usc = new ProductsCatalogUserControl(GridMain);
                     }
                     GridMain.Children.Add(usc);
                     break;
@@ -96,7 +94,7 @@ namespace ElectronicsStore.Pages
                     break;
 
                 case "ItemAccount":
-                    usc = new PersonalCabinetUserControl(ProfileButton, NavigationService);
+                    usc = new PersonalCabinetUserControl(NavigationService);
                     GridMain.Children.Add(element: usc);
                     break;
 

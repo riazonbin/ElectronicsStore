@@ -21,7 +21,9 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
 
-            <Button x:Name="ProfileButton" Margin="0 35 0 0" Width="100" Height="100" FontSize="32" Background="{StaticResource PrimaryHueLightBrush}" Content="Р.Р" Style="{StaticResource MaterialDesignFloatingActionButton}"/>
+            <Button x:Name="ProfileButton" Margin="0 35 0 0" Width="100" Height="100" FontSize="32" Style="{StaticResource MaterialDesignFloatingActionButton}">
+                <Image Source="../Images/defaultAvatar.png"></Image>
+            </Button>
 
             <TextBox FontSize="20" Text="{Binding Lastname}" x:Name="TbLastname"  materialDesign:HintAssist.Hint="Фамилия" ToolTip="Фамилия" Margin="0 10 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"></TextBox>
             <TextBox FontSize="20" Text="{Binding Firstname}" x:Name="TbFirstname" materialDesign:HintAssist.Hint="Имя" ToolTip="Имя" Margin="0 10 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}"></TextBox>
@@ -33,13 +35,6 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Сохранить изменения" VerticalAlignment="Center" FontSize="24"></TextBlock>
                         <materialDesign:PackIcon Margin="10 0 0 0" Kind="FloppyDisk" Width="40" Height="40"></materialDesign:PackIcon>
-                    </StackPanel>
-                </Button>
-
-                <Button  Margin="10 15 0 0" Height="50" Click="DeleteUserButtonClick" Background="Red">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Удалить аккаунт" VerticalAlignment="Center" FontSize="24"></TextBlock>
-                        <materialDesign:PackIcon Margin="10 0 0 0" Kind="DeleteCircle" Width="40" Height="40"></materialDesign:PackIcon>
                     </StackPanel>
                 </Button>
             </StackPanel>

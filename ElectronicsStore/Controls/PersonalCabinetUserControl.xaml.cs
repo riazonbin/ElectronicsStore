@@ -23,17 +23,17 @@ namespace ElectronicsStore.Controls
     /// </summary>
     public partial class PersonalCabinetUserControl : UserControl
     {
-        Button _mainPageProfileButton;
         NavigationService _navService;
+        bool IsAdminMode = App.CurrentUser.Role_Id == 1;
 
-        public PersonalCabinetUserControl(Button MainPageProfileButton, NavigationService navService)
+        public PersonalCabinetUserControl(NavigationService navService)
         {
             _navService = navService;
-            _mainPageProfileButton = MainPageProfileButton;
             InitializeComponent();
+
             DataContext = App.CurrentUser;
 
-            ProfileButton.Content = $"{App.CurrentUser.Lastname[0]}.{App.CurrentUser.Firstname[0]}";
+            //wProfileButton.Content = $"{App.CurrentUser.Lastname[0]}.{App.CurrentUser.Firstname[0]}";
         }
 
         private void SaveChangesButton(object sender, RoutedEventArgs e)
@@ -48,7 +48,6 @@ namespace ElectronicsStore.Controls
             App.Connection.SaveChanges();
 
             ProfileButton.Content = $"{App.CurrentUser.Lastname[0]}.{App.CurrentUser.Firstname[0]}";
-            _mainPageProfileButton.Content = $"{App.CurrentUser.Lastname[0]}.{App.CurrentUser.Firstname[0]}";
 
             ModernWpf.MessageBox.Show("Пользователь успешно сохранен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -60,16 +59,6 @@ namespace ElectronicsStore.Controls
             {
                 App.Connection.Entry(App.CurrentUser).Reload();
             }
-        }
-
-        private void DeleteUserButtonClick(object sender, RoutedEventArgs e)
-        {
-            ModernWpf.MessageBox.Show("Пользователь успешно удален!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            App.Connection.User.Remove(App.CurrentUser);
-            App.Connection.SaveChanges();
-            App.CurrentUser = null;
-            _navService.Navigate(new AuthorizationPage());
         }
     }
 }

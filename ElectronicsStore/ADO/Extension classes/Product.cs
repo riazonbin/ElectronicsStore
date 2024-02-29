@@ -9,7 +9,7 @@ namespace ElectronicsStore.ADO
 {
     public partial class Product
     {
-        public Visibility IsAdminMode => App.CurrentUser.Role.Id == 2 ? Visibility.Visible : Visibility.Collapsed;
-        public Visibility IsUserMode => App.CurrentUser.Role.Id == 1 ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility IsAdminMode => App.CurrentUser.Role.Id == 1 ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility IsUserMode => App.CurrentUser.Role.Id == 2 ? Visibility.Visible : Visibility.Collapsed;
     }
 }

@@ -80,7 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ManagerControls\ProductsCatalogManagerControl.xaml">
+    <Page Include="Controls\ProductsCatalogUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -156,8 +156,8 @@
     <Compile Include="Controls\ManagerControls\CreatingProductManagerControl.xaml.cs">
       <DependentUpon>CreatingProductManagerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ManagerControls\ProductsCatalogManagerControl.xaml.cs">
-      <DependentUpon>ProductsCatalogManagerControl.xaml</DependentUpon>
+    <Compile Include="Controls\ProductsCatalogUserControl.xaml.cs">
+      <DependentUpon>ProductsCatalogUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PersonalCabinetUserControl.xaml.cs">
       <DependentUpon>PersonalCabinetUserControl.xaml</DependentUpon>
@@ -244,6 +244,7 @@
       <DependentUpon>DatabaseModel.edmx</DependentUpon>
       <LastGenOutput>DatabaseModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\defaultAvatar.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EntityFramework">
