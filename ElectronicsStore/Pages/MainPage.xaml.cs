@@ -32,6 +32,7 @@ namespace ElectronicsStore.Pages
 
             IsManagerRole = App.CurrentUser.Role_Id == 2 ? Visibility.Visible : Visibility.Collapsed;
             (ListViewMenu.FindName("ItemBasket") as ListViewItem).Visibility = IsManagerRole;
+            (ListViewMenu.FindName("ItemAccount") as ListViewItem).Visibility = IsManagerRole;
         }
 
         void SelectDefaultControl()
@@ -72,14 +73,7 @@ namespace ElectronicsStore.Pages
             switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
             {
                 case "ItemProducts":
-                    if (App.CurrentUser.Role.Id == 1)
-                    {
-                        usc = new ProductsCatalogUserControl(GridMain);
-                    }
-                    else
-                    {
-                        usc = new ProductsCatalogUserControl(GridMain);
-                    }
+                    usc = new ProductsCatalogUserControl(GridMain);
                     GridMain.Children.Add(usc);
                     break;
 
@@ -94,7 +88,7 @@ namespace ElectronicsStore.Pages
                     break;
 
                 case "ItemAccount":
-                    usc = new PersonalCabinetUserControl(NavigationService);
+                    usc = new PersonalCabinetUserControl(GridMain);
                     GridMain.Children.Add(element: usc);
                     break;
 

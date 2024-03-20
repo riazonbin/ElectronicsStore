@@ -44,7 +44,7 @@ namespace ElectronicsStore
         {
             Random random = new Random();
 
-            foreach (var order in App.Connection.Order.Where(x => x.OrderStatus_Id != 5).ToList())
+            foreach (var order in App.Connection.Order.Where(x => x.OrderStatus_Id != 6).ToList())
             {
 
                 if(random.Next(1, 5) == 1)
@@ -52,7 +52,7 @@ namespace ElectronicsStore
                     order.OrderStatus_Id += 1;
                 }
 
-                if(order.OrderStatus_Id== 5)
+                if(order.OrderStatus_Id == 6)
                 {
                     order.OrderGiveDate = DateTime.Now;
                 }

@@ -1,6 +1,7 @@
 ﻿using ElectronicsStore.ADO;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,88 +26,109 @@ namespace ElectronicsStore.Controls.ClientControls
         {
             InitializeComponent();
 
-            RefreshData();
+            ReloadData();
         }
 
-        private void PlusButtonClick(object sender, RoutedEventArgs e)
+        private void ReloadData()
         {
-            var menuItemId = (int)((Button)sender).Tag;
+            LvBasketItems.ItemsSource = App.Connection.Basket.Where(x => x.User_Id == App.CurrentUser.Id).ToList(
+                );
 
-            Basket newUserCart = new Basket()
+            var totalCount = App.Connection.Basket.Where(x => x.User_Id == App.CurrentUser.Id).Sum(x => x.Count);
+
+            if (totalCount > 0)
             {
-                Product_Id = menuItemId,
-                User_Id = App.CurrentUser.Id,
-            };
-            App.Connection.Basket.Add(newUserCart);
-            App.Connection.SaveChanges();
-
-            dgCart.Items.Refresh();
-        }
-
-        private void MinusButtonClick(object sender, RoutedEventArgs e)
-        {
-            var productId = (int)((Button)sender).Tag;
-
-            App.Connection.Basket.Remove(App.Connection.Basket.FirstOrDefault(x => x.Product_Id == productId));
-            App.Connection.SaveChanges();
-
-            RefreshData();
-        }
-
-        private void RemoveAllButtonClick(object sender, RoutedEventArgs e)
-        {
-            var menuItemId = (int)((Button)sender).Tag;
-
-
-            App.Connection.Basket.RemoveRange(App.Connection.Basket.Where(x => x.Product_Id == menuItemId).ToList());
-            App.Connection.SaveChanges();
-
-            RefreshData();
-        }
-
-        private void RefreshData()
-        {
-            dgCart.ItemsSource = App.Connection.Basket.Where(x => x.User_Id == App.CurrentUser.Id).GroupBy(x => x.Product_Id).ToList();
-            dgCart.Items.Refresh();
-        }
-
-        private void UserControlLoaded(object sender, RoutedEventArgs e)
-        {
-            if(dgCart.Items.Count == 0)
-            {
-                approveOrderButton.Visibility = Visibility.Collapsed;
+                TbTotalCount.Text = $"Товары({totalCount})";
+                TbTotalPrice.Text = $"{App.Connection.Basket.Where(x => x.User_Id == App.CurrentUser.Id).Sum(x => x.Count * x.Product.Price)} ₽";
+                BtnCreateNewOrder.Visibility = Visibility.Visible;
             }
+            else
+            {
+                TbTotalCount.Text = "Корзина пуста";
+                TbTotalPrice.Text = "";
+                BtnCreateNewOrder.Visibility = Visibility.Collapsed;
+            }
+
         }
 
-        private void ApproveOrderButtonClick(object sender, RoutedEventArgs e)
+        private void AddButtonClick(object sender, RoutedEventArgs e)
         {
-            // add new order
-            Order newOrder = new Order()
+
+            var basketId = (int)((Button)sender).Tag;
+
+            var basket = App.Connection.Basket.FirstOrDefault(x => x.Id == basketId);
+
+            var product = basket.Product;
+
+
+            basket.Count++;
+
+            App.Connection.Basket.AddOrUpdate(basket);
+            App.Connection.SaveChanges();
+
+            ReloadData();
+        }
+
+        private void RemoveItemButtonClick(object sender, RoutedEventArgs e)
+        {
+            var basketId = (int)((Button)sender).Tag;
+
+            var basket = App.Connection.Basket.FirstOrDefault(x => x.Id == basketId);
+
+            var product = basket.Product;
+
+
+            if (basket.Count > 1)
             {
+                basket.Count--;
+                App.Connection.Basket.AddOrUpdate(basket);
+            }
+            else
+            {
+                App.Connection.Basket.Remove(basket);
+            }
+
+            App.Connection.SaveChanges();
+
+            ReloadData();
+        }
+
+        private void CreateOrderButtonClick(object sender, RoutedEventArgs e)
+        {
+            var startOrderStatus = App.Connection.OrderStatus.FirstOrDefault(x => x.Id == 1);
+
+            var order = new Order
+            {
+                OrderStatus = startOrderStatus,
+                User_Id = App.CurrentUser.Id,
                 OrderStartDate = DateTime.Now,
-                OrderStatus_Id = 1,
-                User_Id = App.CurrentUser.Id,
             };
 
+            var userBasketList = App.Connection.Basket.Where(x => x.User_Id == App.CurrentUser.Id).ToList();
 
-            foreach(Basket item in App.Connection.Basket.Where(x => x.User_Id == App.CurrentUser.Id).ToList())
+            foreach (var item in userBasketList)
             {
-                OrderContent content = new OrderContent()
+                var orderContent = new OrderContent
                 {
-                    Product_Id = (int)item.Product_Id,
-                    
+                    Order = order,
+                    Product_Id = item.Product_Id,
+                    Count = item.Count,
                 };
-                newOrder.OrderContent.Add(content);
+                order.OrderContent.Add(orderContent);
             }
-            App.Connection.Order.Add(newOrder);
 
-            // clear cart
-            App.Connection.Basket.RemoveRange(App.Connection.Basket.Where(x => x.User_Id == App.CurrentUser.Id));
+
+            App.Connection.Order.AddOrUpdate(order);
+            App.Connection.Basket.RemoveRange(userBasketList);
             App.Connection.SaveChanges();
 
-            RefreshData();
+            App.Connection.Entry(order).Reload();
 
-            ModernWpf.MessageBox.Show("Заказ успешно оформлен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            SnackbarSuccess.MessageQueue?.Enqueue($"Заказ успешно создан!",
+            null, null, null, false,
+            true, TimeSpan.FromSeconds(2));
+
+            ReloadData();
 
         }
     }

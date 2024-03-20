@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ElectronicsStore.Controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"            
              mc:Ignorable="d" 
-             d:DesignHeight="720" d:DesignWidth="1280" Background="White" Loaded="UserControlLoaded" Unloaded="UserControlUnloaded">
+             d:DesignHeight="720" d:DesignWidth="1280" Background="White" Loaded="UserControlLoaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -14,26 +14,96 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="15*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid x:Name="DgHistoryOrders" Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="ID заказа" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="DgClientColumn"  Header="Клиент" SortMemberPath="User.Lastname" Width="*">
-                    <DataGridTextColumn.Binding>
-                        <MultiBinding StringFormat="{}{0} {1}">
-                            <Binding Path="User.Lastname"></Binding>
-                            <Binding Path="User.Firstname"></Binding>
-                        </MultiBinding>
-                    </DataGridTextColumn.Binding>
-                </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding PriceOfOrder}" Header="Стоимость заказа" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=OrderStartDate,  StringFormat = {}{0:dd.MM.yyyy HH:mm}}" Header="Дата начала заказа" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Path=OrderEndDate,  StringFormat = {}{0:dd.MM.yyyy HH:mm}}" Header="Дата выполнения заказа" Width="*"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <TextBlock x:Name="TbDullHistory" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="История заказов пуста" FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+        <ListView x:Name="LvOrdersHistory" ScrollViewer.CanContentScroll="False" Grid.Row="1" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" HorizontalContentAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <materialDesign:Card>
+                        <Expander HorizontalAlignment="Stretch">
+                            <Expander.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <StackPanel Margin="10 0 0 0" >
+                                            <TextBlock FontSize="18" Text="{Binding OrderStartDate, StringFormat={}Заказ от {0:M}, ConverterCulture=ru-RU}"></TextBlock>
+                                        </StackPanel>
+                                        <TextBlock Visibility="{Binding IsAdminMode}" Margin="10 10 0 0">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}Заказчик: {0} {1}">
+                                                    <Binding Path="User.Lastname" />
+                                                    <Binding Path="User.Firstname" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>                                        
+                                        <StackPanel Orientation="Horizontal" Margin="10 10 0 0">
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Id, StringFormat={} Заказ №{0}}"></TextBlock>
+                                            <materialDesign:Chip Margin="30 0 0 0" FontStretch="Expanded" FontSize="14" Content="{Binding OrderStatus.Name}" Foreground="White" Background="{Binding BackgroundColor}"/>
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 10 0" Text="{Binding TotalOrderSum, StringFormat={} оплачено {0} ₽}"></TextBlock>
+                                </Grid>
+                            </Expander.Header>
+                            <StackPanel Margin="24,8,24,16" Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <StackPanel Grid.Column="0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontSize="14" VerticalAlignment="Center" Text="{Binding OrderGiveDate, StringFormat={}Дата доставки {0:dd MMMM HH:mm}, ConverterCulture=ru-RU}"></TextBlock>
+                                        </StackPanel>
+                                        <TextBlock Text="QR-код заказа" Margin="0 15 0 0 "></TextBlock>
+                                        <Image Width="100" Height="100" HorizontalAlignment="Left" Margin="0 20 0 0" Source="{Binding OrderQR}"></Image>
+
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0 30 0 0" Grid.Column="1">
+                                        <ListView d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding OrderContent}">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Width="100" Height="100" Source="{Binding Product.Image}"></Image>
+                                                            <StackPanel>
+                                                                <TextBlock FontSize="18" Margin="10 0 0 0">
+                                                                    <TextBlock.Text>
+                                                                        <MultiBinding StringFormat="{}{0} ({1} размер)">
+                                                                            <Binding Path="Product.Name"></Binding>
+                                                                            <Binding Path="Size.Value"></Binding>
+                                                                        </MultiBinding>
+                                                                    </TextBlock.Text>
+                                                                </TextBlock>
+                                                                <TextBlock Margin="10 0 0 0" FontSize="18" Text="{Binding Product.Price, StringFormat={}{0} ₽/шт.}"></TextBlock>
+                                                                <TextBlock Margin="10 0 0 0" FontSize="18" Text="{Binding Count, StringFormat={}Кол-во: {0} шт.}"></TextBlock>
+                                                                <TextBlock Margin="10 0 0 0" FontSize="18" Text="{Binding TotalSumForProduct, StringFormat={}Итого: {0} ₽}"></TextBlock>
+                                                            </StackPanel>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </StackPanel>
+
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+                    </materialDesign:Card>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

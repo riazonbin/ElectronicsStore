@@ -34,7 +34,7 @@ namespace ElectronicsStore.Controls
             _gridMain = GridMain;
         }
 
-        private void CreateDishButtonClick(object sender, RoutedEventArgs e)
+        private void CreateProductButtonClick(object sender, RoutedEventArgs e)
         {
             _gridMain.Children.Clear();
 
@@ -144,6 +144,7 @@ namespace ElectronicsStore.Controls
             productTypes.AddRange(App.Connection.ProductType.ToList());
             CbCategory.ItemsSource = productTypes;
             CbCategory.SelectedIndex = 0;
+            BtnCreateProduct.Visibility = App.CurrentUser.Role_Id == 1 ? Visibility.Visible : Visibility.Collapsed;
 
             UpdateMenuItems();
         }

@@ -94,7 +94,7 @@
                  x:Name="SnackbarOne"  
                  MessageQueue="{materialDesign:MessageQueue}" Background="{StaticResource PrimaryHueLightBrush}"
             />
-        <Button  Content="+" Margin="5 0 10 15" Padding="0 0 0 7" Style="{StaticResource MaterialDesignFloatingActionButton}" FontSize="32" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="CreateDishButtonClick"/>
+        <Button x:Name="BtnCreateProduct"  Content="+" Margin="5 0 10 15" Padding="0 0 0 7" Style="{StaticResource MaterialDesignFloatingActionButton}" FontSize="32" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="CreateProductButtonClick"/>
 
     </Grid>
     

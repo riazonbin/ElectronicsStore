@@ -23,36 +23,28 @@ namespace ElectronicsStore.Controls
         public HistoryOfOrdersUserControl()
         {
             InitializeComponent();
-            App.dispatcherTimer.Tick += DispatcherTimerTick;
         }
-
-        private void DispatcherTimerTick(object sender, EventArgs e)
+        private void ReloadData()
         {
-            RefreshData();
-        }
-
-        private void RefreshData()
-        {
-            if (App.CurrentUser.Id == 1)
+            if (App.CurrentUser.Role.Id == 1)
             {
-                DgHistoryOrders.ItemsSource = App.Connection.Order.Where(x => x.OrderStatus_Id == 5).ToList();
+                LvOrdersHistory.ItemsSource = App.Connection.Order.Where(x => x.User_Id == App.CurrentUser.Id && x.OrderStatus.Id == 6).ToList();
             }
             else
             {
-                DgHistoryOrders.ItemsSource = App.Connection.Order.Where(x => x.OrderStatus_Id == 5
-                && x.User_Id == App.CurrentUser.Id).ToList();
+                LvOrdersHistory.ItemsSource = App.Connection.Order.Where(x => x.OrderStatus.Id == 6).ToList();
+            }
+
+            if (LvOrdersHistory.Items.Count == 0)
+            {
+                TbDullHistory.Visibility = Visibility.Visible;
             }
         }
 
         private void UserControlLoaded(object sender, RoutedEventArgs e)
         {
-            DgClientColumn.Visibility = App.CurrentUser.Role_Id == 1 ? Visibility.Visible : Visibility.Collapsed;
-            RefreshData();
-        }
-
-        private void UserControlUnloaded(object sender, RoutedEventArgs e)
-        {
-            App.dispatcherTimer.Tick -= DispatcherTimerTick;
+            TbDullHistory.Visibility = Visibility.Collapsed;
+            ReloadData();
         }
     }
 }

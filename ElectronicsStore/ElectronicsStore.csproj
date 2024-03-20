@@ -88,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\ProfilePasswordUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -113,6 +117,7 @@
     <Compile Include="ADO\Discount.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ADO\Extension classes\Basket.cs" />
     <Compile Include="ADO\Extension classes\Order.cs" />
     <Compile Include="ADO\Extension classes\OrderContent.cs" />
     <Compile Include="ADO\Extension classes\Product.cs" />
@@ -161,6 +166,9 @@
     </Compile>
     <Compile Include="Controls\PersonalCabinetUserControl.xaml.cs">
       <DependentUpon>PersonalCabinetUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProfilePasswordUserControl.xaml.cs">
+      <DependentUpon>ProfilePasswordUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -244,6 +252,7 @@
       <DependentUpon>DatabaseModel.edmx</DependentUpon>
       <LastGenOutput>DatabaseModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\defaultAvatarFilled.png" />
     <Resource Include="Images\defaultAvatar.png" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using ElectronicsStore.ADO;
+using ElectronicsStore.Controls.ManagerControls;
 using ElectronicsStore.Pages;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace ElectronicsStore.Controls
 {
@@ -23,12 +25,12 @@ namespace ElectronicsStore.Controls
     /// </summary>
     public partial class PersonalCabinetUserControl : UserControl
     {
-        NavigationService _navService;
+        Grid _gridMain;
         bool IsAdminMode = App.CurrentUser.Role_Id == 1;
 
-        public PersonalCabinetUserControl(NavigationService navService)
+        public PersonalCabinetUserControl(Grid gridMain)
         {
-            _navService = navService;
+            _gridMain = gridMain;
             InitializeComponent();
 
             DataContext = App.CurrentUser;
@@ -36,9 +38,20 @@ namespace ElectronicsStore.Controls
             //wProfileButton.Content = $"{App.CurrentUser.Lastname[0]}.{App.CurrentUser.Firstname[0]}";
         }
 
-        private void SaveChangesButton(object sender, RoutedEventArgs e)
+        private void EditSaveChangesButtonClick(object sender, RoutedEventArgs e)
         {
-            if(TbFirstname.Text == "" || TbLastname.Text == "" || TbLogin.Text == "")
+            if (TbEditSave.Text == "Редактировать данные")
+            {
+                TbLogin.IsEnabled = true;
+                TbFirstname.IsEnabled = true;
+                TbLastname.IsEnabled = true;
+
+                TbEditSave.Text = "Сохранить изменения";
+                return;
+            }
+
+
+            if (TbFirstname.Text == "" || TbLastname.Text == "" || TbLogin.Text == "")
             {
                 ModernWpf.MessageBox.Show("Заполните все поля!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -51,6 +64,11 @@ namespace ElectronicsStore.Controls
 
             ModernWpf.MessageBox.Show("Пользователь успешно сохранен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
 
+            TbLogin.IsEnabled = false;
+            TbFirstname.IsEnabled = false;
+            TbLastname.IsEnabled = false;
+            TbEditSave.Text = "Редактировать данные";
+
         }
 
         private void UserControlUnloaded(object sender, RoutedEventArgs e)
@@ -59,6 +77,14 @@ namespace ElectronicsStore.Controls
             {
                 App.Connection.Entry(App.CurrentUser).Reload();
             }
+        }
+
+        private void ChangePasswordHyperLink(object sender, RoutedEventArgs e)
+        {
+            _gridMain.Children.Clear();
+
+            UserControl usc = new ProfilePasswordUserControl(_gridMain);
+            _gridMain.Children.Add(element: usc);
         }
     }
 }

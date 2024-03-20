@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElectronicsStore.ADO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -21,44 +22,63 @@ namespace ElectronicsStore.Controls
     /// </summary>
     public partial class CurrentOrdersUserControl : UserControl
     {
+        List<Order> _orders;
 
         public CurrentOrdersUserControl()
         {
             InitializeComponent();
-            App.dispatcherTimer.Tick += DispatcherTimerTick;
+            App.dispatcherTimer.Tick += new EventHandler((s, e) => UpdateData());
         }
 
-        private void DispatcherTimerTick(object sender, EventArgs e)
-        {
-            RefreshData();
-        }
 
-        private void RefreshData()
+        private void LoadData()
         {
-            try
+            if (App.CurrentUser.Role.Id == 2)
             {
-                if (App.CurrentUser.Id == 1)
+                _orders = App.Connection.Order.Where(x => x.User_Id == App.CurrentUser.Id && x.OrderStatus.Id != 6).ToList();
+                LvOrders.ItemsSource = _orders;
+            }
+            else
+            {
+                _orders = App.Connection.Order.Where(x => x.User_Id == App.CurrentUser.Id && x.OrderStatus.Id != 6).ToList();
+                LvOrders.ItemsSource = _orders;
+            }
+
+            if (LvOrders.Items.Count == 0)
+            {
+                TbDullOrders.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void UpdateData()
+        {
+            if (App.CurrentUser.Role.Id == 2)
+            {
+                var newData =  App.Connection.Order.Where(x => x.User_Id == App.CurrentUser.Id && x.OrderStatus.Id != 6).ToList();
+                if(newData != _orders)
                 {
-                    DgCurrentOrders.ItemsSource = App.Connection.Order.Where(x => x.OrderStatus_Id != 5).ToList();
-                }
-                else
-                {
-                    DgCurrentOrders.ItemsSource = App.Connection.Order.Where(x => x.OrderStatus_Id != 5
-                    && x.User_Id == App.CurrentUser.Id).ToList();
+                    _orders = newData;
                 }
             }
-            catch { }
+            else
+            {
+                var newData = App.Connection.Order.Where(x => x.User_Id == App.CurrentUser.Id && x.OrderStatus.Id != 6).ToList();
+                if(newData != _orders)
+                {
+                    _orders = newData;
+                }
+            }
         }
 
         private void UserControlLoaded(object sender, RoutedEventArgs e)
         {
-            DgClientColumn.Visibility = App.CurrentUser.Role_Id == 1 ? Visibility.Visible : Visibility.Collapsed;
-            RefreshData();
+            TbDullOrders.Visibility = Visibility.Collapsed;
+            LoadData();
         }
 
         private void UserControlUnloaded(object sender, RoutedEventArgs e)
         {
-            App.dispatcherTimer.Tick -= DispatcherTimerTick;
+            App.dispatcherTimer.Tick -= new EventHandler((s, e1) => LoadData());
         }
     }
 }
