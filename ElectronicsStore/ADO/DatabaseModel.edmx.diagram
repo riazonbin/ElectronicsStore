@@ -5,25 +5,23 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="7d38aad00a5741c094a20e5a9ed4e267" Name="Diagram1">
-        <EntityTypeShape EntityType="ElectronicsStoreModel.Basket" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElectronicsStoreModel.Discount" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElectronicsStoreModel.Order" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElectronicsStoreModel.OrderContent" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElectronicsStoreModel.OrderStatus" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElectronicsStoreModel.Product" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElectronicsStoreModel.ProductType" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElectronicsStoreModel.Role" Width="1.5" PointX="1.5" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElectronicsStoreModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="ElectronicsStoreModel.User" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
-        <AssociationConnector Association="ElectronicsStoreModel.FK_Basket_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="ElectronicsStoreModel.FK_Basket_User" ManuallyRouted="false" />
-        <AssociationConnector Association="ElectronicsStoreModel.FK_Product_Discount" ManuallyRouted="false" />
-        <AssociationConnector Association="ElectronicsStoreModel.FK_Order_OrderStatus" ManuallyRouted="false" />
-        <AssociationConnector Association="ElectronicsStoreModel.FK_Order_User" ManuallyRouted="false" />
-        <AssociationConnector Association="ElectronicsStoreModel.FK_OrderContent_Order" ManuallyRouted="false" />
-        <AssociationConnector Association="ElectronicsStoreModel.FK_OrderContent_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="ElectronicsStoreModel.FK_Product_ProductType1" ManuallyRouted="false" />
-        <AssociationConnector Association="ElectronicsStoreModel.FK_User_Role" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ElectronicsStoreModel.Basket" Width="1.5" PointX="8.25" PointY="3.75" />
+        <EntityTypeShape EntityType="ElectronicsStoreModel.Order" Width="1.5" PointX="5.25" PointY="3.5" />
+        <EntityTypeShape EntityType="ElectronicsStoreModel.OrderContent" Width="1.5" PointX="7.5" PointY="0.75" />
+        <EntityTypeShape EntityType="ElectronicsStoreModel.OrderStatus" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="ElectronicsStoreModel.Product" Width="1.5" PointX="6" PointY="8.5" />
+        <EntityTypeShape EntityType="ElectronicsStoreModel.ProductType" Width="1.5" PointX="3.75" PointY="9" />
+        <EntityTypeShape EntityType="ElectronicsStoreModel.Role" Width="1.5" PointX="0.75" PointY="4" />
+        <EntityTypeShape EntityType="ElectronicsStoreModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ElectronicsStoreModel.User" Width="1.5" PointX="3" PointY="3.5" />
+        <AssociationConnector Association="ElectronicsStoreModel.FK_Basket_Product" />
+        <AssociationConnector Association="ElectronicsStoreModel.FK_Basket_User" />
+        <AssociationConnector Association="ElectronicsStoreModel.FK_Order_OrderStatus" />
+        <AssociationConnector Association="ElectronicsStoreModel.FK_Order_User" />
+        <AssociationConnector Association="ElectronicsStoreModel.FK_OrderContent_Order" />
+        <AssociationConnector Association="ElectronicsStoreModel.FK_OrderContent_Product" />
+        <AssociationConnector Association="ElectronicsStoreModel.FK_Product_ProductType1" />
+        <AssociationConnector Association="ElectronicsStoreModel.FK_User_Role" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

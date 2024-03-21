@@ -27,11 +27,9 @@ namespace ElectronicsStore.ADO
         public byte[] Image { get; set; }
         public decimal Price { get; set; }
         public Nullable<bool> IsMarkedForDeletion { get; set; }
-        public Nullable<int> Discount_Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Basket> Basket { get; set; }
-        public virtual Discount Discount { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderContent> OrderContent { get; set; }
         public virtual ProductType ProductType { get; set; }

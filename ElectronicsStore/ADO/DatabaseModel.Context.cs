@@ -26,7 +26,6 @@ namespace ElectronicsStore.ADO
         }
     
         public virtual DbSet<Basket> Basket { get; set; }
-        public virtual DbSet<Discount> Discount { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderContent> OrderContent { get; set; }
         public virtual DbSet<OrderStatus> OrderStatus { get; set; }

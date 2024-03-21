@@ -114,9 +114,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DatabaseModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="ADO\Discount.cs">
-      <DependentUpon>DatabaseModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="ADO\Extension classes\Basket.cs" />
     <Compile Include="ADO\Extension classes\Order.cs" />
     <Compile Include="ADO\Extension classes\OrderContent.cs" />
