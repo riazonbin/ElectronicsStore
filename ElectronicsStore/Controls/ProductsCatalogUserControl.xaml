@@ -49,17 +49,17 @@
                     </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                            <Grid Height="320" Width="240" Background="#FFF3F3F3">
+                            <Grid Height="320" Width="260">
                                 <Border BorderBrush="#ffdedede" BorderThickness="1">
                                     <Border.Effect>
-                                    <DropShadowEffect BlurRadius="35" ShadowDepth="0"/>
+                                    <DropShadowEffect BlurRadius="8" ShadowDepth="0"/>
                                     </Border.Effect>
                                 </Border>
                                     <!--<Grid.Effect>
                                         <DropShadowEffect BlurRadius="10" Color="#FFDEDEDE" ShadowDepth="2"/>
                                     </Grid.Effect>-->
                                     <StackPanel>
-                                        <TextBlock TextWrapping="Wrap" Margin="10" FontSize="16" Text="{Binding Name}" HorizontalAlignment="Center"/>
+                                        <TextBlock TextWrapping="Wrap" Margin="10" FontSize="14" Text="{Binding Name}" HorizontalAlignment="Center"/>
                                     <Image  Width="180" Height="140" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Image}"/>
                                     <TextBlock HorizontalAlignment="Center" Text="{Binding Price, StringFormat={}{0} ₽}" VerticalAlignment="Center" Margin="10" FontSize="18" />
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0">
@@ -68,7 +68,7 @@
                                 Style="{StaticResource MaterialDesignToolButton}" Tag="{Binding Id}" ToolTip="Изменить" Click="EditProduct">
                                             <StackPanel Orientation="Horizontal">
                                                 <materialDesign:PackIcon Kind="Edit" Foreground="Indigo" />
-                                                <TextBlock Margin="5 0 0 0" Text="Изменить"></TextBlock>
+                                                <TextBlock Margin="5 0 0 0" FontSize="12" Text="Изменить"></TextBlock>
                                             </StackPanel>
                                         </Button>
 

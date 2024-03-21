@@ -26,7 +26,7 @@ namespace ElectronicsStore.Controls
         }
         private void ReloadData()
         {
-            if (App.CurrentUser.Role.Id == 1)
+            if (App.CurrentUser.Role.Id == 2)
             {
                 LvOrdersHistory.ItemsSource = App.Connection.Order.Where(x => x.User_Id == App.CurrentUser.Id && x.OrderStatus.Id == 6).ToList();
             }

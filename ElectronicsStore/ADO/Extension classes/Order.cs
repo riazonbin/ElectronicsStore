@@ -55,6 +55,6 @@ namespace ElectronicsStore.ADO
 
         public BitmapImage OrderQR => GenerateOrderQR();
 
-        public Visibility IsAdminMode => App.CurrentUser.Role_Id == 2 ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility IsAdminMode => App.CurrentUser.Role_Id == 1 ? Visibility.Visible : Visibility.Collapsed;
     }
 }

@@ -46,10 +46,10 @@
                         <materialDesign:PackIcon Kind="Upload" Width="25" Margin="5 0 0 0" Height="25"/>
                     </StackPanel>
                 </Button>
-                <Image x:Name="ImageDish" Source="{Binding Image}" Margin="10 0 0 0" Height="200" Width="200"></Image>
+                <Image x:Name="ImageProduct" Source="{Binding Image}" Margin="10 0 0 0" Height="200" Width="200"></Image>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Margin="0 20 0 10" Width="260" Height="60" HorizontalAlignment="Center" Click="SaveDishButton">
+                <Button Margin="0 20 0 10" Width="260" Height="60" HorizontalAlignment="Center" Click="SaveProductButton">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Сохранить товар" VerticalAlignment="Center" FontSize="18"></TextBlock>
                         <materialDesign:PackIcon Margin="10 0 0 0" Kind="FloppyDisk" Width="30" Height="30"></materialDesign:PackIcon>

@@ -20,7 +20,7 @@ using System.Windows.Shapes;
 namespace ElectronicsStore.Controls.ManagerControls
 {
     /// <summary>
-    /// Interaction logic for CreatingDishManagerControl.xaml
+    /// Interaction logic for CreatingProductManagerControl.xaml
     /// </summary>
     public partial class CreatingProductManagerControl : UserControl
     {
@@ -56,7 +56,7 @@ namespace ElectronicsStore.Controls.ManagerControls
 
             var byteArray = File.ReadAllBytes(window.FileName);
             _product.Image = byteArray;
-            BindingOperations.GetBindingExpressionBase(ImageDish, Image.SourceProperty).UpdateTarget();
+            BindingOperations.GetBindingExpressionBase(ImageProduct, Image.SourceProperty).UpdateTarget();
 
         }
 
@@ -67,7 +67,7 @@ namespace ElectronicsStore.Controls.ManagerControls
             cbMenuItemType.ItemsSource = App.Connection.ProductType.ToList().OrderBy(x => x.Name);
         }
 
-        private void SaveDishButton(object sender, RoutedEventArgs e)
+        private void SaveProductButton(object sender, RoutedEventArgs e)
         {
             if(tbName.Text == "" || cbMenuItemType.SelectedIndex == -1)
             {
